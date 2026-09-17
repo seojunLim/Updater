@@ -18,6 +18,7 @@
         <!-- TITLE SCENE -->
         <div id="scene-title" class="scene">
             <div id="title-content" class="center-content">
+                <div id="title-sub-top"></div>
                 <div id="title-main"></div>
                 <div id="title-version"></div>
                 <div id="title-prompt" class="blink-text"></div>
@@ -31,6 +32,9 @@
                     <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
                     <div class="hud-item">STATUS: <span id="intro-status" class="status-normal">NORMAL</span></div>
                 </div>
+                <div class="hud-center">
+                    <div id="intro-location" class="location-label"></div>
+                </div>
                 <div class="hud-right">
                     <div class="hud-item">HEALTH</div>
                     <div class="progress-bar"><div id="intro-health" class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
@@ -38,7 +42,9 @@
             </div>
             <div id="intro-world" class="game-world">
                 <div id="ground"></div>
-                <div id="building-1" class="building"></div>
+                <div id="building-1" class="building school-building">
+                    <div class="building-label">학교</div>
+                </div>
                 <div id="building-2" class="building"></div>
                 <div id="building-3" class="building"></div>
                 <div id="player-character" class="character">
@@ -49,6 +55,10 @@
                         <div class="char-leg right"></div>
                     </div>
                 </div>
+            </div>
+            <div id="intro-objective" class="objective-box">
+                <div class="objective-label">OBJECTIVE</div>
+                <div class="objective-text">안전하게 귀가하기</div>
             </div>
             <div id="intro-minimap" class="minimap">
                 <div class="minimap-dot player-dot"></div>
@@ -62,6 +72,9 @@
                 <div class="hud-left">
                     <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
                     <div class="hud-item">STATUS: <span id="encounter-status" class="status-normal">NORMAL</span></div>
+                </div>
+                <div class="hud-center">
+                    <div class="location-label">학교 뒤편</div>
                 </div>
                 <div class="hud-right">
                     <div class="hud-item">HEALTH</div>
@@ -87,7 +100,9 @@
                     </div>
                     <div id="npc-indicator" class="npc-indicator">!</div>
                 </div>
+                <div id="smoke-particles" class="smoke-particles"></div>
             </div>
+            <div id="system-alert" class="system-alert"></div>
             <div id="dialogue-box" class="dialogue-box">
                 <div class="dialogue-name">NPC</div>
                 <div id="dialogue-text" class="dialogue-text"></div>
@@ -101,8 +116,12 @@
                     <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
                     <div class="hud-item">STATUS: <span class="status-normal">NORMAL</span></div>
                 </div>
+                <div class="hud-center">
+                    <div class="alert-badge">⚠ 흡연 권유 감지</div>
+                </div>
             </div>
             <div id="choice-content" class="center-content">
+                <div id="choice-context" class="choice-context"></div>
                 <div id="choice-question" class="choice-question"></div>
                 <div id="choice-options" class="choice-options">
                     <button id="choice-1" class="choice-btn" data-choice="1">[ 1 ] 거절한다</button>
@@ -120,21 +139,22 @@
                 </div>
                 <div class="hud-right">
                     <div class="stat-group">
-                        <div class="hud-item">HEALTH</div>
+                        <div class="hud-item" id="bad-health-label">폐활량</div>
                         <div class="progress-bar"><div id="bad-health" class="progress-fill" style="width:100%"></div><span id="bad-health-text" class="progress-text">100%</span></div>
                     </div>
                     <div class="stat-group">
-                        <div class="hud-item">STAMINA</div>
+                        <div class="hud-item" id="bad-stamina-label">체력</div>
                         <div class="progress-bar"><div id="bad-stamina" class="progress-fill" style="width:100%"></div><span id="bad-stamina-text" class="progress-text">100%</span></div>
                     </div>
                     <div class="stat-group">
-                        <div class="hud-item">FOCUS</div>
+                        <div class="hud-item" id="bad-focus-label">집중력</div>
                         <div class="progress-bar"><div id="bad-focus" class="progress-fill" style="width:100%"></div><span id="bad-focus-text" class="progress-text">100%</span></div>
                     </div>
                 </div>
             </div>
             <div id="bad-content" class="center-content">
                 <div id="bad-message"></div>
+                <div id="bad-submessage" class="bad-submessage"></div>
             </div>
         </div>
 
@@ -149,6 +169,7 @@
         <div id="scene-gameover" class="scene">
             <div id="gameover-content" class="center-content">
                 <div id="gameover-title"></div>
+                <div id="gameover-cause" class="gameover-cause"></div>
                 <div id="gameover-prompt"></div>
                 <div id="gameover-options" class="choice-options">
                     <button id="restart-yes" class="choice-btn">[ YES ]</button>
@@ -162,12 +183,15 @@
             <div id="restart-log" class="terminal-text"></div>
         </div>
 
-        <!-- SECOND ENCOUNTER SCENE (reuses encounter layout) -->
+        <!-- SECOND ENCOUNTER SCENE -->
         <div id="scene-encounter2" class="scene">
             <div id="encounter2-hud" class="hud">
                 <div class="hud-left">
                     <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
                     <div class="hud-item">STATUS: <span class="status-normal">NORMAL</span></div>
+                </div>
+                <div class="hud-center">
+                    <div class="location-label">학교 뒤편</div>
                 </div>
                 <div class="hud-right">
                     <div class="hud-item">HEALTH</div>
@@ -194,6 +218,7 @@
                     <div class="npc-indicator">!</div>
                 </div>
             </div>
+            <div id="system-alert-2" class="system-alert"></div>
             <div id="dialogue-box-2" class="dialogue-box">
                 <div class="dialogue-name">NPC</div>
                 <div id="dialogue-text-2" class="dialogue-text"></div>
@@ -207,8 +232,12 @@
                     <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
                     <div class="hud-item">STATUS: <span class="status-normal">NORMAL</span></div>
                 </div>
+                <div class="hud-center">
+                    <div class="alert-badge">⚠ 흡연 권유 감지</div>
+                </div>
             </div>
             <div class="center-content">
+                <div id="choice2-context" class="choice-context"></div>
                 <div id="choice2-question" class="choice-question"></div>
                 <div id="choice2-options" class="choice-options">
                     <button id="choice2-1" class="choice-btn" data-choice="1">[ 1 ] 거절한다</button>
@@ -226,15 +255,15 @@
                 </div>
                 <div class="hud-right">
                     <div class="stat-group">
-                        <div class="hud-item">HEALTH</div>
+                        <div class="hud-item">폐활량</div>
                         <div class="progress-bar"><div id="good-health" class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
                     </div>
                     <div class="stat-group">
-                        <div class="hud-item">STAMINA</div>
+                        <div class="hud-item">체력</div>
                         <div class="progress-bar"><div id="good-stamina" class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
                     </div>
                     <div class="stat-group">
-                        <div class="hud-item">FOCUS</div>
+                        <div class="hud-item">집중력</div>
                         <div class="progress-bar"><div id="good-focus" class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
                     </div>
                 </div>
@@ -280,7 +309,7 @@
         <div id="scene-final" class="scene">
             <div id="final-content" class="center-content">
                 <div id="final-msg-1" class="final-message"></div>
-                <div id="final-msg-2" class="final-message"></div>
+                <div id="final-msg-2" class="final-message final-message-strong"></div>
             </div>
         </div>
 
@@ -289,6 +318,7 @@
             <div id="end-content" class="center-content">
                 <div id="end-title"></div>
                 <div id="end-label"></div>
+                <div id="end-tagline" class="end-tagline"></div>
             </div>
         </div>
     </div>
