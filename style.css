@@ -697,71 +697,251 @@ html, body {
     box-shadow: 0 0 30px rgba(74, 158, 255, 0.2);
 }
 
-/* ===== BAD RESULT ===== */
+/* ===== BODY DAMAGE SCAN ===== */
 
-#bad-message {
-    font-size: 28px;
-    letter-spacing: 4px;
+.damage-layout {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 20px 70px 40px;
+    min-height: 0;
+}
+
+.body-panel {
+    position: relative;
+    flex: 0 0 34%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#body-svg {
+    height: 92%;
+    max-width: 100%;
+    overflow: visible;
+}
+
+#body-outline * {
+    fill: rgba(74, 158, 255, 0.035);
+    stroke: rgba(74, 158, 255, 0.28);
+    stroke-width: 2;
+}
+
+.organ-detail {
+    fill: none;
+    stroke: rgba(74, 158, 255, 0.45);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+#body-svg .organ path,
+#body-svg path.organ {
+    fill: rgba(74, 158, 255, 0.16);
+    stroke: rgba(74, 158, 255, 0.8);
+    stroke-width: 2;
+    transition: fill 1.4s ease, stroke 1.4s ease;
+}
+
+#body-svg .organ {
+    opacity: 0.38;
+    transition: opacity 0.6s ease, filter 0.6s ease;
+}
+
+#body-svg .organ.active {
+    opacity: 1;
+    filter: drop-shadow(0 0 14px rgba(74, 158, 255, 0.65));
+}
+
+#body-svg .organ.damaged {
+    opacity: 1;
+    filter: drop-shadow(0 0 16px rgba(255, 34, 68, 0.5));
+}
+
+#body-svg .organ.damaged path,
+#body-svg path.organ.damaged {
+    fill: rgba(16, 11, 8, 0.96);
+    stroke: var(--error);
+}
+
+#tar-blobs circle {
+    fill: #070504;
+    opacity: 0;
+    transform: scale(0);
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 0.7s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.7s ease;
+}
+
+#tar-blobs.visible circle {
+    opacity: 0.92;
+    transform: scale(1);
+}
+
+#tar-blobs.visible circle:nth-child(2) { transition-delay: 0.12s; }
+#tar-blobs.visible circle:nth-child(3) { transition-delay: 0.24s; }
+#tar-blobs.visible circle:nth-child(4) { transition-delay: 0.36s; }
+#tar-blobs.visible circle:nth-child(5) { transition-delay: 0.1s; }
+#tar-blobs.visible circle:nth-child(6) { transition-delay: 0.22s; }
+#tar-blobs.visible circle:nth-child(7) { transition-delay: 0.34s; }
+#tar-blobs.visible circle:nth-child(8) { transition-delay: 0.44s; }
+
+.scan-line {
+    position: absolute;
+    left: 6%;
+    width: 88%;
+    height: 3px;
+    top: 0;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    box-shadow: 0 0 22px rgba(74, 158, 255, 0.8);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.scan-line.scanning {
+    animation: scanSweep 1.6s ease-in-out;
+}
+
+@keyframes scanSweep {
+    0% { top: 2%; opacity: 0; }
+    12% { opacity: 1; }
+    88% { opacity: 1; }
+    100% { top: 96%; opacity: 0; }
+}
+
+.damage-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+
+.damage-step-label {
+    font-size: 17px;
+    letter-spacing: 5px;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+}
+
+.damage-step-label.warn {
     color: var(--warning);
 }
 
-.bad-submessage {
+.damage-organ-name {
+    font-family: var(--sans);
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--highlight);
+    line-height: 1.1;
+    margin-bottom: 4px;
+}
+
+.damage-organ-name::after {
+    content: attr(data-sub);
+    display: block;
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    color: var(--text-dim);
+    margin-top: 6px;
+}
+
+.damage-facts {
+    margin: 22px 0 6px;
+    min-height: 150px;
+}
+
+.damage-fact {
+    font-family: var(--sans);
+    font-size: 24px;
+    color: var(--warning);
+    line-height: 1.5;
+    padding: 5px 0 5px 18px;
+    border-left: 3px solid var(--warning);
+    margin-bottom: 12px;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.damage-fact.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.damage-meters {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.dmg-meter {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    max-width: 480px;
+}
+
+.dmg-meter.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dmg-meter-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
     font-family: var(--sans);
     font-size: 16px;
     color: var(--text-dim);
-    margin-top: 16px;
-    letter-spacing: 1px;
-    opacity: 0;
-    transition: opacity 0.5s;
+    margin-bottom: 5px;
 }
 
-.bad-submessage.visible {
-    opacity: 1;
-}
-
-/* ===== ERROR SCENE ===== */
-
-#error-content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: var(--bg);
-    overflow: hidden;
-}
-
-#error-messages {
-    padding: 60px;
+.dmg-meter-val {
+    font-family: var(--mono);
     font-size: 20px;
-}
-
-.error-line {
-    margin-bottom: 12px;
-    opacity: 0;
-    animation: fadeInLine 0.2s ease forwards;
-}
-
-.error-line.warning {
-    color: var(--warning);
-}
-
-.error-line.error {
     color: var(--error);
+    letter-spacing: 1px;
 }
 
-.error-line.critical {
-    color: var(--error);
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 3px;
+.dmg-meter-bar {
+    height: 12px;
+    background: rgba(255, 34, 68, 0.1);
+    border: 1px solid rgba(255, 34, 68, 0.28);
 }
 
-.error-line.smoking-warning {
+.dmg-meter-fill {
+    height: 100%;
+    width: 100%;
+    background: var(--error);
+    transition: width 1.1s ease;
+}
+
+.damage-summary {
     font-family: var(--sans);
-    color: var(--warning);
-    font-size: 18px;
-    padding: 6px 0;
-    border-left: 3px solid var(--warning);
-    padding-left: 12px;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--error);
+    letter-spacing: 1px;
+    margin-top: 24px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    text-shadow: 0 0 30px rgba(255, 34, 68, 0.35);
+}
+
+.damage-summary.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.progress-fill.addiction {
+    background: var(--error);
+    transition: width 1.2s ease;
 }
 
 /* ===== GLITCH ===== */
@@ -858,31 +1038,6 @@ html, body {
     font-size: 20px;
 }
 
-/* ===== GOOD RESULT ===== */
-
-#good-message {
-    font-size: 28px;
-    letter-spacing: 4px;
-    color: var(--success);
-}
-
-/* ===== SYSTEM STATUS DISPLAY ===== */
-
-.system-status-display {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 16px;
-    font-size: 16px;
-    letter-spacing: 3px;
-    padding: 12px 32px;
-    border: 1px solid rgba(34, 204, 102, 0.2);
-    background: rgba(10, 10, 15, 0.8);
-    z-index: 10;
-}
-
 /* ===== HOOK SCENE ===== */
 
 #scene-hook {
@@ -891,19 +1046,63 @@ html, body {
 
 .hook-text {
     font-family: var(--sans);
-    font-size: 42px;
+    font-size: 46px;
     color: #fff;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     opacity: 0;
     text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+}
+
+.boot-title {
+    font-size: 28px;
+    letter-spacing: 6px;
+    margin-top: 20px;
+    color: var(--highlight);
 }
 
 /* ===== GOOD RESULT ===== */
 
 #good-message {
-    font-size: 28px;
+    font-size: 34px;
     letter-spacing: 4px;
     color: var(--success);
+}
+
+.good-stats {
+    margin-top: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 420px;
+}
+
+.good-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 20px;
+    border: 1px solid rgba(34, 204, 102, 0.25);
+    background: rgba(34, 204, 102, 0.06);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.good-stat-row.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.good-stat-label {
+    font-family: var(--sans);
+    font-size: 18px;
+    color: var(--text);
+}
+
+.good-stat-value {
+    font-size: 22px;
+    color: var(--success);
+    letter-spacing: 2px;
 }
 
 /* ===== FINAL MESSAGE (game vs reality contrast) ===== */

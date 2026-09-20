@@ -12,7 +12,7 @@
 
         <!-- HOOK SCENE -->
         <div id="scene-hook" class="scene">
-            <div id="hook-content" class="center-content">
+            <div class="center-content">
                 <div id="hook-text" class="hook-text"></div>
             </div>
         </div>
@@ -24,10 +24,10 @@
 
         <!-- ENCOUNTER SCENE -->
         <div id="scene-encounter" class="scene">
-            <div id="encounter-hud" class="hud">
+            <div class="hud">
                 <div class="hud-left">
                     <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
-                    <div class="hud-item">STATUS: <span id="encounter-status" class="status-normal">NORMAL</span></div>
+                    <div class="hud-item">STATUS: <span class="status-normal">NORMAL</span></div>
                 </div>
                 <div class="hud-center">
                     <div class="location-label">학교 뒤편</div>
@@ -37,7 +37,7 @@
                     <div class="progress-bar"><div class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
                 </div>
             </div>
-            <div id="encounter-world" class="game-world">
+            <div class="game-world">
                 <div id="ground-enc"></div>
                 <div id="player-enc" class="character player-stopped">
                     <div class="char-head"></div>
@@ -54,7 +54,7 @@
                         <div class="char-leg left"></div>
                         <div class="char-leg right"></div>
                     </div>
-                    <div id="npc-indicator" class="npc-indicator">!</div>
+                    <div class="npc-indicator">!</div>
                 </div>
                 <div id="smoke-particles" class="smoke-particles"></div>
             </div>
@@ -80,44 +80,72 @@
                 <div id="choice-context" class="choice-context"></div>
                 <div id="choice-question" class="choice-question"></div>
                 <div id="choice-options" class="choice-options">
-                    <button id="choice-1" class="choice-btn" data-choice="1">[ 1 ] 거절한다</button>
-                    <button id="choice-2" class="choice-btn" data-choice="2">[ 2 ] 받아본다</button>
+                    <button id="choice-1" class="choice-btn">[ 1 ] 거절한다</button>
+                    <button id="choice-2" class="choice-btn">[ 2 ] 받아본다</button>
                 </div>
             </div>
         </div>
 
-        <!-- BAD CHOICE SCENE -->
-        <div id="scene-bad" class="scene">
-            <div id="bad-hud" class="hud">
+        <!-- BODY DAMAGE SCAN SCENE -->
+        <div id="scene-damage" class="scene">
+            <div class="hud">
                 <div class="hud-left">
                     <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
-                    <div class="hud-item">STATUS: <span id="bad-status"></span></div>
+                    <div class="hud-item">STATUS: <span id="damage-status" class="status-normal">NORMAL</span></div>
+                </div>
+                <div class="hud-center">
+                    <div id="damage-badge" class="alert-badge">흡연 후 신체 스캔</div>
                 </div>
                 <div class="hud-right">
-                    <div class="stat-group">
-                        <div class="hud-item">폐활량</div>
-                        <div class="progress-bar"><div id="bad-health" class="progress-fill" style="width:100%"></div><span id="bad-health-text" class="progress-text">100%</span></div>
-                    </div>
-                    <div class="stat-group">
-                        <div class="hud-item">체력</div>
-                        <div class="progress-bar"><div id="bad-stamina" class="progress-fill" style="width:100%"></div><span id="bad-stamina-text" class="progress-text">100%</span></div>
-                    </div>
-                    <div class="stat-group">
-                        <div class="hud-item">집중력</div>
-                        <div class="progress-bar"><div id="bad-focus" class="progress-fill" style="width:100%"></div><span id="bad-focus-text" class="progress-text">100%</span></div>
-                    </div>
+                    <div class="hud-item">니코틴 의존도</div>
+                    <div class="progress-bar"><div id="nicotine-fill" class="progress-fill addiction" style="width:0%"></div><span id="nicotine-text" class="progress-text">0%</span></div>
                 </div>
             </div>
-            <div class="center-content">
-                <div id="bad-message"></div>
-                <div id="bad-submessage" class="bad-submessage"></div>
-            </div>
-        </div>
 
-        <!-- ERROR SCENE -->
-        <div id="scene-error" class="scene">
-            <div id="error-content">
-                <div id="error-messages"></div>
+            <div class="damage-layout">
+                <div class="body-panel">
+                    <svg id="body-svg" viewBox="0 0 360 520" xmlns="http://www.w3.org/2000/svg">
+                        <g id="body-outline">
+                            <ellipse cx="180" cy="62" rx="44" ry="52"/>
+                            <rect x="164" y="108" width="32" height="28"/>
+                            <path d="M180 132 C 138 132, 104 148, 98 186 L 90 292 C 87 330, 94 362, 102 396 L 106 470 L 254 470 L 258 396 C 266 362, 273 330, 270 292 L 262 186 C 256 148, 222 132, 180 132 Z"/>
+                        </g>
+
+                        <path class="organ-detail" d="M180 136 L180 190 M180 190 L 162 208 M180 190 L 198 208"/>
+
+                        <g id="organ-lungs" class="organ">
+                            <path d="M174 192 C 148 190, 122 212, 116 256 C 110 302, 116 342, 138 358 C 158 372, 176 360, 177 328 L 177 194 Z"/>
+                            <path d="M186 192 C 212 190, 238 212, 244 256 C 250 302, 244 342, 222 358 C 202 372, 184 360, 183 328 L 183 194 Z"/>
+                        </g>
+
+                        <g id="tar-blobs">
+                            <circle cx="140" cy="248" r="13"/>
+                            <circle cx="152" cy="300" r="17"/>
+                            <circle cx="131" cy="322" r="11"/>
+                            <circle cx="158" cy="262" r="9"/>
+                            <circle cx="220" cy="244" r="14"/>
+                            <circle cx="206" cy="302" r="16"/>
+                            <circle cx="232" cy="324" r="11"/>
+                            <circle cx="198" cy="260" r="9"/>
+                        </g>
+
+                        <g id="organ-brain" class="organ">
+                            <path d="M180 36 C 199 29, 216 41, 213 58 C 218 69, 209 83, 194 83 L 166 83 C 151 83, 142 69, 147 58 C 144 41, 161 29, 180 36 Z"/>
+                        </g>
+                        <path id="brain-folds" class="organ-detail" d="M180 33 L180 83 M164 44 C 174 50, 172 62, 161 66 M196 44 C 186 50, 188 62, 199 66"/>
+
+                        <path id="organ-heart" class="organ" d="M180 268 C 177 250, 154 247, 152 270 C 150 294, 180 314, 180 314 C 180 314, 208 294, 206 270 C 204 247, 183 250, 180 268 Z"/>
+                    </svg>
+                    <div id="scan-line" class="scan-line"></div>
+                </div>
+
+                <div class="damage-panel">
+                    <div id="damage-step" class="damage-step-label"></div>
+                    <div id="damage-organ" class="damage-organ-name"></div>
+                    <div id="damage-facts" class="damage-facts"></div>
+                    <div id="damage-meters" class="damage-meters"></div>
+                    <div id="damage-summary" class="damage-summary"></div>
+                </div>
             </div>
         </div>
 
@@ -196,8 +224,8 @@
                 <div id="choice2-context" class="choice-context"></div>
                 <div id="choice2-question" class="choice-question"></div>
                 <div id="choice2-options" class="choice-options">
-                    <button id="choice2-1" class="choice-btn" data-choice="1">[ 1 ] 거절한다</button>
-                    <button id="choice2-2" class="choice-btn" data-choice="2">[ 2 ] 받아본다</button>
+                    <button id="choice2-1" class="choice-btn">[ 1 ] 거절한다</button>
+                    <button id="choice2-2" class="choice-btn">[ 2 ] 받아본다</button>
                 </div>
             </div>
         </div>
@@ -209,27 +237,17 @@
                     <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
                     <div class="hud-item">STATUS: <span id="good-status" class="status-normal"></span></div>
                 </div>
-                <div class="hud-right">
-                    <div class="stat-group">
-                        <div class="hud-item">폐활량</div>
-                        <div class="progress-bar"><div id="good-health" class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
-                    </div>
-                    <div class="stat-group">
-                        <div class="hud-item">체력</div>
-                        <div class="progress-bar"><div id="good-stamina" class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
-                    </div>
-                    <div class="stat-group">
-                        <div class="hud-item">집중력</div>
-                        <div class="progress-bar"><div id="good-focus" class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
-                    </div>
+                <div class="hud-center">
+                    <div class="location-label">학교 뒤편</div>
                 </div>
             </div>
             <div class="center-content">
                 <div id="good-message"></div>
+                <div id="good-stats" class="good-stats"></div>
             </div>
         </div>
 
-        <!-- FINAL CONTRAST SCENE -->
+        <!-- GAME VS REALITY SCENE -->
         <div id="scene-final" class="scene">
             <div class="center-content">
                 <div id="final-msg-1" class="final-message"></div>
