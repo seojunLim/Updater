@@ -35,6 +35,16 @@ function playGameOverSound() {
     setTimeout(() => playTone(300, 0.6, 'sine', 0.05), 300);
     setTimeout(() => playTone(200, 0.8, 'sine', 0.04), 600);
 }
+function playRestartSound() {
+    playTone(400, 0.1, 'sine', 0.05);
+    setTimeout(() => playTone(600, 0.1, 'sine', 0.05), 100);
+    setTimeout(() => playTone(800, 0.15, 'sine', 0.06), 200);
+}
+function playGoodSound() {
+    playTone(523, 0.15, 'sine', 0.06);
+    setTimeout(() => playTone(659, 0.15, 'sine', 0.06), 150);
+    setTimeout(() => playTone(784, 0.3, 'sine', 0.07), 300);
+}
 
 function showScene(name) {
     document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
@@ -101,7 +111,7 @@ async function sceneHook() {
     sceneBoot();
 }
 
-// ===== SCENE: BOOT (0:05~0:12) =====
+// ===== SCENE: BOOT (0:05~0:10) =====
 async function sceneBoot() {
     showScene('boot');
     const log = document.getElementById('boot-log');
@@ -110,15 +120,15 @@ async function sceneBoot() {
     await delay(300);
     await typeTerminalLine(log, 'SYSTEM BOOT', 40);
     playBootSound();
-    await delay(300);
+    await delay(200);
 
-    await typeTerminalLine(log, 'LOADING: SMOKING_PREVENTION.EXE', 25);
+    await typeTerminalLine(log, 'LOADING: SMOKING_PREVENTION.EXE', 20);
     playBootSound();
-    await delay(300);
+    await delay(200);
 
-    await typeTerminalLine(log, 'MODULE: 흡연예방 시뮬레이션 v1.0', 25);
+    await typeTerminalLine(log, 'MODULE: 흡연예방 시뮬레이션 v1.0', 20);
     playBootSound();
-    await delay(300);
+    await delay(200);
 
     const progressLine = document.createElement('div');
     progressLine.className = 'line boot-progress';
@@ -132,18 +142,16 @@ async function sceneBoot() {
         const pct = Math.round((i / total) * 100);
         progressLine.textContent = `[${filled}${empty}] ${pct}%`;
         if (i % 5 === 0) playBootSound();
-        await delay(40);
+        await delay(30);
     }
 
     await delay(200);
     await typeTerminalLine(log, 'SYSTEM READY', 40);
     playConfirmSound();
-    await delay(400);
+    await delay(300);
 
-    // Title flash (no wait for input)
-    await typeTerminalLine(log, '', 0);
     const titleLine = document.createElement('div');
-    titleLine.className = 'line boot-title';
+    titleLine.className = 'line';
     titleLine.style.opacity = '1';
     titleLine.style.fontSize = '28px';
     titleLine.style.letterSpacing = '6px';
@@ -153,12 +161,12 @@ async function sceneBoot() {
     log.appendChild(titleLine);
     playConfirmSound();
 
-    await delay(1500);
+    await delay(1000);
 
     sceneEncounter();
 }
 
-// ===== SCENE: ENCOUNTER (0:12~0:35) =====
+// ===== SCENE: ENCOUNTER (0:10~0:20) =====
 async function sceneEncounter() {
     showScene('encounter');
     const dialogueBox = document.getElementById('dialogue-box');
@@ -179,42 +187,42 @@ async function sceneEncounter() {
         smoke.appendChild(p);
     }
 
-    await delay(600);
+    await delay(500);
     npc.style.opacity = '1';
-    await delay(400);
-
+    await delay(300);
     smoke.classList.add('visible');
-    await delay(400);
+    await delay(300);
 
     dialogueBox.classList.add('visible');
     await delay(200);
     await typeText(dialogueText, '"야."', 80);
     playButtonSound();
 
-    await delay(1000);
+    await delay(800);
 
     dialogueText.textContent = '';
-    await typeText(dialogueText, '"담배 한 대 피워볼래?"', 50);
+    await typeText(dialogueText, '"담배 한 대 피워볼래?"', 45);
     playButtonSound();
 
-    await delay(600);
+    await delay(500);
 
     alert.textContent = '⚠ 흡연 권유 감지';
     alert.classList.add('warning-alert');
     playWarningSound();
 
-    await delay(1500);
+    await delay(1200);
 
-    sceneChoice();
+    sceneChoice(1);
 }
 
 // ===== SCENE: CHOICE =====
-async function sceneChoice() {
-    showScene('choice');
+async function sceneChoice(round) {
+    const sceneId = round === 1 ? 'choice' : 'choice2';
+    showScene(sceneId);
 
-    const ctx = document.getElementById('choice-context');
-    const question = document.getElementById('choice-question');
-    const options = document.getElementById('choice-options');
+    const ctx = document.getElementById(round === 1 ? 'choice-context' : 'choice2-context');
+    const question = document.getElementById(round === 1 ? 'choice-question' : 'choice2-question');
+    const options = document.getElementById(round === 1 ? 'choice-options' : 'choice2-options');
 
     ctx.textContent = '';
     ctx.style.opacity = '0';
@@ -227,27 +235,38 @@ async function sceneChoice() {
     ctx.style.opacity = '1';
     ctx.classList.add('fade-in');
 
-    await delay(500);
+    await delay(400);
     question.style.opacity = '1';
     question.classList.add('fade-in');
-    await typeText(question, 'WHAT WILL YOU DO?', 45);
+    await typeText(question, 'WHAT WILL YOU DO?', 40);
 
-    await delay(600);
+    await delay(500);
     options.style.opacity = '1';
     options.classList.add('fade-in');
     playButtonSound();
 
-    await delay(2000);
-    const btn2 = document.getElementById('choice-2');
-    btn2.classList.add('selected');
-    playButtonSound();
-    await delay(300);
-    playConfirmSound();
-    await delay(500);
-    sceneBadChoice();
+    if (round === 1) {
+        await delay(1800);
+        const btn2 = document.getElementById('choice-2');
+        btn2.classList.add('selected');
+        playButtonSound();
+        await delay(300);
+        playConfirmSound();
+        await delay(500);
+        sceneBadChoice();
+    } else {
+        await delay(1800);
+        const btn1 = document.getElementById('choice2-1');
+        btn1.classList.add('selected');
+        playButtonSound();
+        await delay(300);
+        playGoodSound();
+        await delay(500);
+        sceneGoodChoice();
+    }
 }
 
-// ===== SCENE: BAD CHOICE (0:35~0:50) =====
+// ===== SCENE: BAD CHOICE (0:24~0:34) =====
 async function sceneBadChoice() {
     showScene('bad');
     const msg = document.getElementById('bad-message');
@@ -267,47 +286,39 @@ async function sceneBadChoice() {
     sub.textContent = '';
     sub.classList.remove('visible');
 
-    await delay(400);
+    await delay(300);
     msg.style.opacity = '1';
-    await typeText(msg, 'PROCESSING...', 35);
-
-    await delay(500);
-
     playWarningSound();
-    msg.textContent = '';
     msg.style.color = 'var(--warning)';
-    await typeText(msg, 'WARNING: 흡연 감지', 45);
+    await typeText(msg, 'WARNING: 흡연 감지', 40);
 
     await delay(400);
 
     sub.textContent = '플레이어가 담배를 피웠습니다';
     sub.classList.add('visible');
 
-    await delay(500);
+    await delay(400);
 
     msg.textContent = '';
-    await typeText(msg, 'PLAYER STATUS UPDATED', 35);
+    await typeText(msg, 'PLAYER STATUS UPDATED', 30);
 
-    await delay(400);
+    await delay(300);
 
     health.style.width = '65%';
     health.classList.add('warning');
     healthText.textContent = '65%';
     playWarningSound();
-
-    await delay(300);
+    await delay(250);
 
     stamina.style.width = '70%';
     stamina.classList.add('warning');
     staminaText.textContent = '70%';
-
-    await delay(300);
+    await delay(250);
 
     focus.style.width = '55%';
     focus.classList.add('warning');
     focusText.textContent = '55%';
-
-    await delay(300);
+    await delay(250);
 
     const hud = document.getElementById('bad-hud');
     const meter = document.createElement('div');
@@ -319,17 +330,17 @@ async function sceneBadChoice() {
     await delay(100);
     meter.querySelector('.addiction-fill').style.width = '40%';
 
-    await delay(400);
+    await delay(300);
 
     status.textContent = 'UNSTABLE';
     status.className = 'status-unstable';
 
-    await delay(800);
+    await delay(600);
 
     sceneError();
 }
 
-// ===== SCENE: ERROR (0:50~0:59) =====
+// ===== SCENE: ERROR (0:34~0:40) =====
 async function sceneError() {
     showScene('error');
     const container = document.getElementById('error-messages');
@@ -340,39 +351,33 @@ async function sceneError() {
     noise.className = 'noise-overlay';
     scene.appendChild(noise);
 
-    await delay(300);
+    await delay(200);
 
     addErrorLine(container, 'WARNING: 흡연으로 인한 시스템 불안정', 'warning');
     playWarningSound();
-    await delay(500);
+    await delay(400);
 
     addErrorLine(container, '▶ 폐 기능 저하 감지', 'smoking-warning');
-    await delay(400);
+    await delay(300);
 
     addErrorLine(container, '▶ 니코틴 중독 진행 중...', 'smoking-warning');
     scene.classList.add('screen-shake');
     playWarningSound();
     await delay(200);
     scene.classList.remove('screen-shake');
-
-    await delay(400);
+    await delay(300);
 
     addErrorLine(container, 'ERROR: 체력 데이터 손상', 'error');
     scene.classList.add('screen-flash');
     playErrorSound();
     await delay(200);
     scene.classList.remove('screen-flash');
-
-    await delay(300);
-
-    addErrorLine(container, '▶ 집중력 급격히 저하', 'smoking-warning');
-    await delay(300);
+    await delay(200);
 
     noise.classList.add('visible');
     scene.classList.add('glitch');
     addErrorLine(container, 'ERROR: PLAYER DATA CORRUPTED', 'error');
     playErrorSound();
-
     await delay(200);
 
     addErrorPopup(scene, '⚠ 폐활량 30% 이하', 100, 320);
@@ -381,21 +386,17 @@ async function sceneError() {
     await delay(150);
     addErrorPopup(scene, 'FATAL: 건강 시스템 붕괴', 260, 460);
     playErrorSound();
-
-    await delay(500);
+    await delay(400);
 
     scene.classList.remove('glitch');
     const critLine = addErrorLine(container, 'CRITICAL: 흡연으로 인한 시스템 완전 손상', 'critical');
     critLine.classList.add('text-distort');
     playErrorSound();
 
-    await delay(400);
-
+    await delay(300);
     scene.classList.add('screen-shake');
     playErrorSound();
-
-    await delay(600);
-
+    await delay(500);
     scene.classList.remove('screen-shake');
     noise.classList.remove('visible');
 
@@ -424,7 +425,7 @@ function addErrorPopup(parent, text, x, y) {
     }, 1500);
 }
 
-// ===== SCENE: GAME OVER =====
+// ===== SCENE: GAME OVER (0:40~0:48) =====
 async function sceneGameOver() {
     showScene('gameover');
     const title = document.getElementById('gameover-title');
@@ -437,144 +438,211 @@ async function sceneGameOver() {
     prompt.style.opacity = '0';
     options.style.opacity = '0';
 
-    await delay(800);
+    await delay(600);
 
     title.textContent = 'GAME OVER';
     title.style.opacity = '1';
     title.classList.add('fade-in');
     playGameOverSound();
 
-    await delay(1500);
+    await delay(1200);
 
     cause.textContent = '흡연으로 인한 시스템 손상';
     cause.style.opacity = '1';
     cause.classList.add('fade-in');
 
-    await delay(1200);
+    await delay(1000);
 
     prompt.textContent = 'RESTART?';
     prompt.style.opacity = '1';
     prompt.classList.add('fade-in');
 
-    await delay(600);
+    await delay(500);
 
     options.style.opacity = '1';
     options.classList.add('fade-in');
 
-    await delay(1200);
+    await delay(1000);
 
     const yesBtn = document.getElementById('restart-yes');
     yesBtn.classList.add('selected');
     playButtonSound();
-
-    await delay(400);
+    await delay(300);
     playConfirmSound();
     await delay(400);
 
     sceneRestart();
 }
 
-// ===== SCENE: RESTART (failed) =====
+// ===== SCENE: RESTART (0:48~0:52) =====
 async function sceneRestart() {
     showScene('restart');
     const log = document.getElementById('restart-log');
     log.innerHTML = '';
 
     await delay(400);
-    playTone(400, 0.1, 'sine', 0.05);
-    setTimeout(() => playTone(600, 0.1, 'sine', 0.05), 100);
+    playRestartSound();
 
     await typeTerminalLine(log, 'RESTARTING...', 35);
     await delay(400);
 
+    await typeTerminalLine(log, 'CLEARING DAMAGE DATA...', 30);
+    await delay(300);
+
     await typeTerminalLine(log, 'LOADING PREVIOUS STATE...', 30);
+    await delay(400);
+
+    await typeTerminalLine(log, '플레이어 상태 초기화 완료', 25);
+    await delay(300);
+
+    await typeTerminalLine(log, 'READY', 50);
+    playConfirmSound();
+    await delay(600);
+
+    sceneEncounter2();
+}
+
+// ===== SCENE: ENCOUNTER 2 (0:52~0:58) =====
+async function sceneEncounter2() {
+    showScene('encounter2');
+    const dialogueBox = document.getElementById('dialogue-box-2');
+    const dialogueText = document.getElementById('dialogue-text-2');
+    const alert = document.getElementById('system-alert-2');
+
+    dialogueBox.classList.remove('visible');
+    alert.className = 'system-alert';
+    alert.textContent = '';
+
     await delay(500);
 
-    const scene = document.getElementById('scene-restart');
-    scene.classList.add('screen-shake');
-    playErrorSound();
-    await delay(300);
-    scene.classList.remove('screen-shake');
+    dialogueBox.classList.add('visible');
+    await delay(200);
+    await typeText(dialogueText, '"야."', 80);
+    playButtonSound();
 
-    const errLine = await typeTerminalLine(log, 'ERROR: RESTART FAILED', 30);
-    errLine.style.color = 'var(--error)';
-    playErrorSound();
+    await delay(800);
 
-    await delay(400);
+    dialogueText.textContent = '';
+    await typeText(dialogueText, '"담배 한 대 피워볼래?"', 45);
+    playButtonSound();
 
-    const errLine2 = await typeTerminalLine(log, 'FATAL: 복구 불가능한 손상', 30);
-    errLine2.style.color = 'var(--error)';
+    await delay(500);
 
-    scene.classList.add('glitch');
-    await delay(600);
-    scene.classList.remove('glitch');
+    alert.textContent = '⚠ 흡연 권유 감지';
+    alert.classList.add('warning-alert');
+    playWarningSound();
 
-    await delay(400);
+    await delay(1200);
 
-    const errLine3 = await typeTerminalLine(log, 'SYSTEM TERMINATED.', 40);
-    errLine3.style.color = 'var(--error)';
-    playErrorSound();
+    sceneChoice(2);
+}
+
+// ===== SCENE: GOOD CHOICE (1:02~1:07) =====
+async function sceneGoodChoice() {
+    showScene('good');
+    const msg = document.getElementById('good-message');
+    const status = document.getElementById('good-status');
+
+    status.textContent = '';
+    msg.textContent = '';
+    msg.style.opacity = '0';
+
+    await delay(500);
+
+    msg.style.opacity = '1';
+    await typeText(msg, '흡연 거절 완료', 35);
+    playConfirmSound();
+
+    await delay(800);
+
+    msg.textContent = '';
+    msg.innerHTML = `
+        <div style="margin-bottom: 20px; letter-spacing: 4px;">PLAYER STATUS</div>
+        <div style="font-size: 18px; line-height: 2.2; text-align: left; display: inline-block;">
+            <div>폐활량</div>
+            <div style="color: var(--success);">██████████ 100%</div>
+            <div style="margin-top: 6px;">체력</div>
+            <div style="color: var(--success);">██████████ 100%</div>
+            <div style="margin-top: 6px;">집중력</div>
+            <div style="color: var(--success);">██████████ 100%</div>
+            <div style="margin-top: 10px; color: var(--text-dim); font-size: 14px;">니코틴 의존도: 0%</div>
+        </div>
+    `;
+
+    status.textContent = 'NORMAL';
+    status.className = 'status-normal';
 
     await delay(1000);
 
-    sceneReality();
+    const sysLine = document.createElement('div');
+    sysLine.style.marginTop = '24px';
+    sysLine.style.fontSize = '22px';
+    sysLine.style.letterSpacing = '4px';
+    sysLine.innerHTML = 'SYSTEM STATUS <span style="color: var(--success);">NORMAL</span>';
+    msg.appendChild(sysLine);
+    sysLine.classList.add('fade-in');
+    playGoodSound();
+
+    await delay(1500);
+
+    sceneFinal();
 }
 
-// ===== SCENE: REALITY =====
-async function sceneReality() {
-    showScene('reality');
-    const msg1 = document.getElementById('reality-msg-1');
-    const msg2 = document.getElementById('reality-msg-2');
+// ===== SCENE: FINAL - 게임 vs 현실 대비 (1:07~1:14) =====
+async function sceneFinal() {
+    showScene('final');
+    const msg1 = document.getElementById('final-msg-1');
+    const msg2 = document.getElementById('final-msg-2');
 
     msg1.style.opacity = '0';
     msg2.style.opacity = '0';
     msg1.textContent = '';
     msg2.textContent = '';
 
-    await delay(1200);
+    await delay(1000);
 
-    msg1.textContent = '하지만 현실에서는';
+    msg1.textContent = '게임에서는 다시 시작할 수 있습니다.';
     msg1.style.opacity = '1';
     msg1.classList.add('fade-in-slow');
 
-    await delay(2500);
+    await delay(3000);
 
     msg1.classList.add('fade-out');
-    await delay(800);
+    await delay(1000);
     msg1.style.opacity = '0';
 
-    await delay(500);
+    await delay(800);
 
-    msg2.textContent = 'GAME OVER 후 다시 시작할 수 없습니다.';
+    msg2.textContent = '하지만 현실에서는 다시 시작할 수 없습니다.';
     msg2.style.opacity = '1';
     msg2.classList.add('fade-in-slow');
 
-    await delay(3000);
+    await delay(3500);
 
     msg2.classList.add('fade-out');
-    await delay(800);
+    await delay(1000);
 
-    sceneFinal();
+    sceneEnd();
 }
 
-// ===== SCENE: FINAL (1:12~1:19) =====
-async function sceneFinal() {
-    showScene('final');
-    const msg = document.getElementById('final-msg');
-    const label = document.getElementById('final-label');
+// ===== SCENE: END (1:14~1:19) =====
+async function sceneEnd() {
+    showScene('end');
+    const msg = document.getElementById('end-msg');
+    const label = document.getElementById('end-label');
 
     msg.style.opacity = '0';
     label.style.opacity = '0';
     msg.textContent = '';
     label.textContent = '';
 
-    await delay(800);
+    await delay(600);
 
     msg.textContent = '담배 대신, 건강한 내일을 선택하세요.';
     msg.style.opacity = '1';
     msg.classList.add('fade-in-slow');
 
-    await delay(3000);
+    await delay(2500);
 
     label.textContent = '흡연예방';
     label.style.opacity = '1';

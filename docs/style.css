@@ -898,13 +898,21 @@ html, body {
     text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
 }
 
-/* ===== REALITY SCENE ===== */
+/* ===== GOOD RESULT ===== */
 
-#scene-reality {
+#good-message {
+    font-size: 28px;
+    letter-spacing: 4px;
+    color: var(--success);
+}
+
+/* ===== FINAL MESSAGE (game vs reality contrast) ===== */
+
+#scene-final {
     background: #000;
 }
 
-.reality-message {
+.final-message {
     font-family: var(--sans);
     font-size: 38px;
     color: var(--highlight);
@@ -913,29 +921,20 @@ html, body {
     letter-spacing: 2px;
 }
 
-.reality-message-strong {
+.final-message-strong {
     font-size: 44px;
     font-weight: 700;
     color: #fff;
     text-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
 }
 
-/* ===== FINAL MESSAGE ===== */
+/* ===== END CARD ===== */
 
-#scene-final {
+#scene-end {
     background: #000;
 }
 
-.final-message {
-    font-family: var(--sans);
-    font-size: 36px;
-    color: var(--highlight);
-    line-height: 1.8;
-    opacity: 0;
-    letter-spacing: 2px;
-}
-
-.final-label {
+.end-label {
     font-family: var(--sans);
     font-size: 52px;
     font-weight: 900;

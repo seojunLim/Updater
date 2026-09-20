@@ -67,7 +67,7 @@
 
         <!-- CHOICE SCENE -->
         <div id="scene-choice" class="scene">
-            <div id="choice-hud" class="hud">
+            <div class="hud">
                 <div class="hud-left">
                     <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
                     <div class="hud-item">STATUS: <span class="status-normal">NORMAL</span></div>
@@ -76,7 +76,7 @@
                     <div class="alert-badge">⚠ 흡연 권유 감지</div>
                 </div>
             </div>
-            <div id="choice-content" class="center-content">
+            <div class="center-content">
                 <div id="choice-context" class="choice-context"></div>
                 <div id="choice-question" class="choice-question"></div>
                 <div id="choice-options" class="choice-options">
@@ -95,20 +95,20 @@
                 </div>
                 <div class="hud-right">
                     <div class="stat-group">
-                        <div class="hud-item" id="bad-health-label">폐활량</div>
+                        <div class="hud-item">폐활량</div>
                         <div class="progress-bar"><div id="bad-health" class="progress-fill" style="width:100%"></div><span id="bad-health-text" class="progress-text">100%</span></div>
                     </div>
                     <div class="stat-group">
-                        <div class="hud-item" id="bad-stamina-label">체력</div>
+                        <div class="hud-item">체력</div>
                         <div class="progress-bar"><div id="bad-stamina" class="progress-fill" style="width:100%"></div><span id="bad-stamina-text" class="progress-text">100%</span></div>
                     </div>
                     <div class="stat-group">
-                        <div class="hud-item" id="bad-focus-label">집중력</div>
+                        <div class="hud-item">집중력</div>
                         <div class="progress-bar"><div id="bad-focus" class="progress-fill" style="width:100%"></div><span id="bad-focus-text" class="progress-text">100%</span></div>
                     </div>
                 </div>
             </div>
-            <div id="bad-content" class="center-content">
+            <div class="center-content">
                 <div id="bad-message"></div>
                 <div id="bad-submessage" class="bad-submessage"></div>
             </div>
@@ -123,7 +123,7 @@
 
         <!-- GAME OVER SCENE -->
         <div id="scene-gameover" class="scene">
-            <div id="gameover-content" class="center-content">
+            <div class="center-content">
                 <div id="gameover-title"></div>
                 <div id="gameover-cause" class="gameover-cause"></div>
                 <div id="gameover-prompt"></div>
@@ -139,19 +139,109 @@
             <div id="restart-log" class="terminal-text"></div>
         </div>
 
-        <!-- REALITY SCENE -->
-        <div id="scene-reality" class="scene">
-            <div id="reality-content" class="center-content">
-                <div id="reality-msg-1" class="reality-message"></div>
-                <div id="reality-msg-2" class="reality-message reality-message-strong"></div>
+        <!-- SECOND ENCOUNTER SCENE -->
+        <div id="scene-encounter2" class="scene">
+            <div class="hud">
+                <div class="hud-left">
+                    <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
+                    <div class="hud-item">STATUS: <span class="status-normal">NORMAL</span></div>
+                </div>
+                <div class="hud-center">
+                    <div class="location-label">학교 뒤편</div>
+                </div>
+                <div class="hud-right">
+                    <div class="hud-item">HEALTH</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
+                </div>
+            </div>
+            <div class="game-world">
+                <div id="ground-enc2"></div>
+                <div class="character player-stopped">
+                    <div class="char-head"></div>
+                    <div class="char-body"></div>
+                    <div class="char-legs">
+                        <div class="char-leg left"></div>
+                        <div class="char-leg right"></div>
+                    </div>
+                </div>
+                <div class="character npc">
+                    <div class="char-head npc-head"></div>
+                    <div class="char-body npc-body"></div>
+                    <div class="char-legs">
+                        <div class="char-leg left"></div>
+                        <div class="char-leg right"></div>
+                    </div>
+                    <div class="npc-indicator">!</div>
+                </div>
+            </div>
+            <div id="system-alert-2" class="system-alert"></div>
+            <div id="dialogue-box-2" class="dialogue-box">
+                <div class="dialogue-name">NPC</div>
+                <div id="dialogue-text-2" class="dialogue-text"></div>
             </div>
         </div>
 
-        <!-- FINAL MESSAGE SCENE -->
+        <!-- SECOND CHOICE SCENE -->
+        <div id="scene-choice2" class="scene">
+            <div class="hud">
+                <div class="hud-left">
+                    <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
+                    <div class="hud-item">STATUS: <span class="status-normal">NORMAL</span></div>
+                </div>
+                <div class="hud-center">
+                    <div class="alert-badge">⚠ 흡연 권유 감지</div>
+                </div>
+            </div>
+            <div class="center-content">
+                <div id="choice2-context" class="choice-context"></div>
+                <div id="choice2-question" class="choice-question"></div>
+                <div id="choice2-options" class="choice-options">
+                    <button id="choice2-1" class="choice-btn" data-choice="1">[ 1 ] 거절한다</button>
+                    <button id="choice2-2" class="choice-btn" data-choice="2">[ 2 ] 받아본다</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GOOD CHOICE SCENE -->
+        <div id="scene-good" class="scene">
+            <div class="hud">
+                <div class="hud-left">
+                    <div class="hud-item">PLAYER: <span class="highlight">USER_01</span></div>
+                    <div class="hud-item">STATUS: <span id="good-status" class="status-normal"></span></div>
+                </div>
+                <div class="hud-right">
+                    <div class="stat-group">
+                        <div class="hud-item">폐활량</div>
+                        <div class="progress-bar"><div id="good-health" class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
+                    </div>
+                    <div class="stat-group">
+                        <div class="hud-item">체력</div>
+                        <div class="progress-bar"><div id="good-stamina" class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
+                    </div>
+                    <div class="stat-group">
+                        <div class="hud-item">집중력</div>
+                        <div class="progress-bar"><div id="good-focus" class="progress-fill" style="width:100%"></div><span class="progress-text">100%</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="center-content">
+                <div id="good-message"></div>
+            </div>
+        </div>
+
+        <!-- FINAL CONTRAST SCENE -->
         <div id="scene-final" class="scene">
-            <div id="final-content" class="center-content">
-                <div id="final-msg" class="final-message"></div>
-                <div id="final-label" class="final-label"></div>
+            <div class="center-content">
+                <div id="final-msg-1" class="final-message"></div>
+                <div id="final-msg-2" class="final-message final-message-strong"></div>
+            </div>
+        </div>
+
+        <!-- END CARD SCENE -->
+        <div id="scene-end" class="scene">
+            <div class="center-content">
+                <div id="end-msg" class="final-message"></div>
+                <div id="end-label" class="end-label"></div>
             </div>
         </div>
     </div>
