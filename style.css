@@ -883,13 +883,28 @@ html, body {
     z-index: 10;
 }
 
-/* ===== FINAL MESSAGE ===== */
+/* ===== HOOK SCENE ===== */
 
-#scene-final {
+#scene-hook {
     background: #000;
 }
 
-.final-message {
+.hook-text {
+    font-family: var(--sans);
+    font-size: 42px;
+    color: #fff;
+    letter-spacing: 3px;
+    opacity: 0;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+}
+
+/* ===== REALITY SCENE ===== */
+
+#scene-reality {
+    background: #000;
+}
+
+.reality-message {
     font-family: var(--sans);
     font-size: 38px;
     color: var(--highlight);
@@ -898,41 +913,37 @@ html, body {
     letter-spacing: 2px;
 }
 
-.final-message-strong {
+.reality-message-strong {
     font-size: 44px;
     font-weight: 700;
     color: #fff;
     text-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
 }
 
-/* ===== END CARD ===== */
+/* ===== FINAL MESSAGE ===== */
 
-#scene-end {
+#scene-final {
     background: #000;
 }
 
-#end-title {
-    font-size: 32px;
-    color: var(--text-dim);
-    letter-spacing: 6px;
-    opacity: 0;
-}
-
-#end-label {
-    font-size: 48px;
-    color: var(--highlight);
-    letter-spacing: 8px;
-    margin-top: 20px;
-    opacity: 0;
-}
-
-.end-tagline {
+.final-message {
     font-family: var(--sans);
-    font-size: 16px;
-    color: var(--text-dim);
-    letter-spacing: 3px;
+    font-size: 36px;
+    color: var(--highlight);
+    line-height: 1.8;
+    opacity: 0;
+    letter-spacing: 2px;
+}
+
+.final-label {
+    font-family: var(--sans);
+    font-size: 52px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 12px;
     margin-top: 40px;
     opacity: 0;
+    text-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
 }
 
 /* ===== FADE TRANSITIONS ===== */
