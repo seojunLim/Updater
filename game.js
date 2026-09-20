@@ -424,14 +424,18 @@ function addErrorPopup(parent, text, x, y) {
     }, 1500);
 }
 
-// ===== SCENE: GAME OVER (0:59~1:05) =====
+// ===== SCENE: GAME OVER =====
 async function sceneGameOver() {
     showScene('gameover');
     const title = document.getElementById('gameover-title');
     const cause = document.getElementById('gameover-cause');
+    const prompt = document.getElementById('gameover-prompt');
+    const options = document.getElementById('gameover-options');
 
     title.style.opacity = '0';
     cause.style.opacity = '0';
+    prompt.style.opacity = '0';
+    options.style.opacity = '0';
 
     await delay(800);
 
@@ -446,12 +450,77 @@ async function sceneGameOver() {
     cause.style.opacity = '1';
     cause.classList.add('fade-in');
 
-    await delay(2500);
+    await delay(1200);
+
+    prompt.textContent = 'RESTART?';
+    prompt.style.opacity = '1';
+    prompt.classList.add('fade-in');
+
+    await delay(600);
+
+    options.style.opacity = '1';
+    options.classList.add('fade-in');
+
+    await delay(1200);
+
+    const yesBtn = document.getElementById('restart-yes');
+    yesBtn.classList.add('selected');
+    playButtonSound();
+
+    await delay(400);
+    playConfirmSound();
+    await delay(400);
+
+    sceneRestart();
+}
+
+// ===== SCENE: RESTART (failed) =====
+async function sceneRestart() {
+    showScene('restart');
+    const log = document.getElementById('restart-log');
+    log.innerHTML = '';
+
+    await delay(400);
+    playTone(400, 0.1, 'sine', 0.05);
+    setTimeout(() => playTone(600, 0.1, 'sine', 0.05), 100);
+
+    await typeTerminalLine(log, 'RESTARTING...', 35);
+    await delay(400);
+
+    await typeTerminalLine(log, 'LOADING PREVIOUS STATE...', 30);
+    await delay(500);
+
+    const scene = document.getElementById('scene-restart');
+    scene.classList.add('screen-shake');
+    playErrorSound();
+    await delay(300);
+    scene.classList.remove('screen-shake');
+
+    const errLine = await typeTerminalLine(log, 'ERROR: RESTART FAILED', 30);
+    errLine.style.color = 'var(--error)';
+    playErrorSound();
+
+    await delay(400);
+
+    const errLine2 = await typeTerminalLine(log, 'FATAL: 복구 불가능한 손상', 30);
+    errLine2.style.color = 'var(--error)';
+
+    scene.classList.add('glitch');
+    await delay(600);
+    scene.classList.remove('glitch');
+
+    await delay(400);
+
+    const errLine3 = await typeTerminalLine(log, 'SYSTEM TERMINATED.', 40);
+    errLine3.style.color = 'var(--error)';
+    playErrorSound();
+
+    await delay(1000);
 
     sceneReality();
 }
 
-// ===== SCENE: REALITY (1:05~1:12) =====
+// ===== SCENE: REALITY =====
 async function sceneReality() {
     showScene('reality');
     const msg1 = document.getElementById('reality-msg-1');
